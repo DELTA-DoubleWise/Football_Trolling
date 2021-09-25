@@ -21,7 +21,7 @@ club_abbr = ['MIL', 'AMD', 'BAR', 'DOR', 'CHE', 'MUN', 'INT', 'ARS',
 
 start_time, end_time = time_initialization()
 
-for club_index in tqdm(range(5, len(club_abbr))):
+for club_index in tqdm(range(len(club_abbr))):
     temp_list = []
     for i in tqdm(range(len(start_time))):
         temp_list.append(np.array(list(api.search_submissions(after=start_time[i], before=end_time[i],
