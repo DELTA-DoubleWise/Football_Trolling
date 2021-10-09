@@ -7,6 +7,7 @@ import datetime as dt
 from psaw import PushshiftAPI
 from tqdm import tqdm
 import pickle
+from datetime import datetime
 
 club_reddit_abbr = ['ACMilan', 'atletico', 'Barca', 'borussiadortmund', 'chelseafc', 'fcbayern', 'FCInterMilan',
                     'Gunners',
@@ -76,6 +77,41 @@ def transform_df(filename):
         }, ignore_index=True)
     return df
 
+def parse_dates(df):
+    dates = df['created_utc'].astype(int)
+    real_dates = []
+    for date in dates:
+        real_dates.append(datetime.fromtimestamp(date))
+    df['date'] = real_dates
+    return df
+
+def praw_init():
+    return praw.Reddit(client_id='bCnE1U61Wqixgs2wy28POg', client_secret='vEY7k3_j7o3PZZvP-tEt6DnhWr1x5A',
+                user_agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36')
+
+def extract_comments(filename, columns):
+    comments = pd.DataFrame(columns = columns)
+    reddit = praw_init()
+    data = pd.read_csv(filename)
+    data_comments_50 = data.loc[data['num_comments']>=50]
+    if data_comments_50.shape[0]>=100:
+        for i in range(len(data_comments_50)):
+            uid = data_comments_50.iloc[i]['id']
+            subreddit = data_comments_50.iloc[i]['subreddit']
+            time = data_comments_50.iloc[i]['date']
+            title = data_comments_50.iloc[i]['title']
+            submission = reddit.submission(id=uid)
+            for top_level_comment in submission.comments:
+                if isinstance(top_level_comment, MoreComments):
+                    for cid in top_level_comment.children:
+                        comments = comments.append({'comments': reddit.comment(cid).body, 'post_id': uid, 'subreddit': subreddit,
+                                                    'time': time, 'title': title},
+                                                   ignore_index=True)
+                else:
+                    comments = comments.append({'comments': top_level_comment.body, 'post_id': uid, 'subreddit': subreddit,
+                                                'time': time, 'title': title},
+                                               ignore_index=True)
+    return comments
 
 
 
