@@ -95,7 +95,7 @@ def extract_comments(filename, columns):
     data = pd.read_csv(filename)
     data_comments_50 = data.loc[data['num_comments']>=50]
     if data_comments_50.shape[0]>=100:
-        for i in range(len(data_comments_50)):
+        for i in tqdm(range(len(data_comments_50))):
             uid = data_comments_50.iloc[i]['id']
             subreddit = data_comments_50.iloc[i]['subreddit']
             time = data_comments_50.iloc[i]['date']
