@@ -8,6 +8,7 @@ from psaw import PushshiftAPI
 from tqdm import tqdm
 import pickle
 from datetime import datetime
+import tqdm.notebook as tq
 
 club_reddit_abbr = ['ACMilan', 'atletico', 'Barca', 'borussiadortmund', 'chelseafc', 'fcbayern', 'FCInterMilan',
                     'Gunners',
@@ -36,6 +37,7 @@ def api_initialization():
     TOKEN = res.json()['access_token']
     headers = {**headers, **{'Authorization': f"bearer {TOKEN}"}}
     requests.get('https://oauth.reddit.com/api/v1/me', headers=headers)
+    return headers
 
 
 def time_initialization():
@@ -89,9 +91,9 @@ def praw_init():
     return praw.Reddit(client_id='bCnE1U61Wqixgs2wy28POg', client_secret='vEY7k3_j7o3PZZvP-tEt6DnhWr1x5A',
                 user_agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36')
 
-def extract_comments(filename, columns):
+def extract_comments_by_praw(reddit, filename, columns):
     comments = pd.DataFrame(columns = columns)
-    reddit = praw_init()
+    #reddit = praw_init()
     data = pd.read_csv(filename)
     data_comments_50 = data.loc[data['num_comments']>=50]
     if data_comments_50.shape[0]>=100:
@@ -101,7 +103,7 @@ def extract_comments(filename, columns):
             time = data_comments_50.iloc[i]['date']
             title = data_comments_50.iloc[i]['title']
             submission = reddit.submission(id=uid)
-            for top_level_comment in submission.comments:
+            for top_level_comment in tqdm(submission.comments):
                 if isinstance(top_level_comment, MoreComments):
                     for cid in top_level_comment.children:
                         comments = comments.append({'comments': reddit.comment(cid).body, 'post_id': uid, 'subreddit': subreddit,
@@ -113,5 +115,64 @@ def extract_comments(filename, columns):
                                                ignore_index=True)
     return comments
 
+def extract_comments_by_psaw(filename, columns):
+    api = PushshiftAPI()
+    comments = pd.DataFrame(columns=columns)
+    data = pd.read_csv(filename)
+    data_comments_50 = data.loc[data['num_comments'] >= 50]
+    if data_comments_50.shape[0] >= 100:
+        for i in tqdm(range(len(data_comments_50))):
+            uid = data_comments_50.iloc[i]['id']
+            subreddit = data_comments_50.iloc[i]['subreddit']
+            time = data_comments_50.iloc[i]['date']
+            title = data_comments_50.iloc[i]['title']
+            comment_ids = api._get_submission_comment_ids(uid)
+            for cid in tqdm(comment_ids):
+                gen = api.search_comments(ids=cid)
+                comment = next(gen).body
+                comments = comments.append(
+                            {'comments': comment, 'post_id': uid, 'subreddit': subreddit,
+                             'time': time, 'title': title},
+                            ignore_index=True)
+    return comments
 
 
+def extract_comments_by_api(filename,columns):
+    comments = pd.DataFrame(columns=columns)
+    headers = api_initialization()
+    posts = pd.read_csv(filename)
+    posts_comments_50 = posts.loc[posts['num_comments'] >= 50]
+    subreddit = posts['subreddit'][0]
+    if posts_comments_50.shape[0] >= 100:
+        for uid in tq.tqdm(posts_comments_50['id']):
+            url = f"https://oauth.reddit.com/r/{subreddit}/comments/{uid}/"
+            res = requests.get(url, headers=headers)
+            comment_list = res.json()[1]
+            comments = get_comment(comment_list,comments,uid)
+    return comments
+
+
+def get_comment(comment_list,df,post_id):
+    comment_list = comment_list['data']['children']
+    for comment in comment_list:
+        c_text, c_id, c_post, c_subreddit, c_time, c_author, c_ups = None, None, None, None, None, None, None
+        c_post = post_id
+        if 'body' in comment['data']:
+            c_text = comment['data']['body']
+        if 'id' in comment['data']:
+            c_id = comment['data']['id']
+        if 'subreddit' in comment['data']:
+            c_subreddit = comment['data']['subreddit']
+        if 'created_utc' in comment['data']:
+            c_time = datetime.fromtimestamp(int(comment['data']['created_utc']))
+        if 'author' in comment['data']:
+            c_author = comment['data']['author']
+        if 'ups' in comment['data']:
+            c_ups = comment['data']['ups']
+        df = df.append(
+            {'text': c_text, 'id': c_id, 'post_id': c_post, 'subreddit': c_subreddit,
+             'time': c_time, 'author': c_author, 'ups': c_ups},
+            ignore_index=True)
+        if 'replies' in comment['data'] and comment['data']['replies'] != '':
+            get_comment(comment['data']['replies'],df,post_id)
+    return df
