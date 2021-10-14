@@ -144,11 +144,20 @@ def extract_comments_by_api(filename,columns):
     posts_comments_50 = posts.loc[posts['num_comments'] >= 50]
     subreddit = posts['subreddit'][0]
     if posts_comments_50.shape[0] >= 100:
+        iter = 0
         for uid in tq.tqdm(posts_comments_50['id']):
-            url = f"https://oauth.reddit.com/r/{subreddit}/comments/{uid}/"
-            res = requests.get(url, headers=headers)
-            comment_list = res.json()[1]
-            comments = get_comment(comment_list,comments,uid)
+            if iter%200 == 0:
+                headers = api_initialization()
+            iter += 1
+            try:
+                url = f"https://oauth.reddit.com/r/{subreddit}/comments/{uid}/"
+                res = requests.get(url, headers=headers)
+                comment_list = res.json()[1]
+                comments = get_comment(comment_list,comments,uid)
+            except Exception as e:
+                comments.to_csv(f'../data/comments/temp{iter}.csv',index=False)
+                pass
+            continue
     return comments
 
 
