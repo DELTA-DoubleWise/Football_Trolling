@@ -7,6 +7,7 @@ import datetime as dt
 from psaw import PushshiftAPI
 from tqdm import tqdm
 import pickle
+import dill
 from datetime import datetime
 import tqdm.notebook as tq
 
@@ -60,10 +61,9 @@ def list_flatten(target):
 
 def transform_df(filename):
     with open(filename, 'rb') as file:
-        posts = pickle.load(file)
+        posts = dill.load(file)
     posts = list_flatten(posts)
-    posts = np.array(posts)
-    posts_info = posts[:, 10]
+    posts_info = [post[-1] for post in posts]
     df = pd.DataFrame()
     for post in posts_info:
         df = df.append({
@@ -75,7 +75,9 @@ def transform_df(filename):
             'title': post['title'],
             'num_comments': post['num_comments'],
             'score': post['score'],
-            'upvote_ratio': post['upvote_ratio']
+            'upvote_ratio': post['upvote_ratio'],
+            'self_text': post['selftext'] if 'selftext' in post else ''
+
         }, ignore_index=True)
     return df
 
