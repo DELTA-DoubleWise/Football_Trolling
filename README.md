@@ -28,6 +28,10 @@ To run codes, first build the environment by installing supporting libraries:
 pip install -r requirements.txt
 ```
 
+All the data used in the project can be downloaded here:
+
+https://drive.google.com/file/d/1H_MYxRy583aFSkdyDkrc7GwwCn0JNjqb/view?usp=sharing
+
 #### Visualization System
 
 This part is to build a forum-based visualization system based on the previous insights.
