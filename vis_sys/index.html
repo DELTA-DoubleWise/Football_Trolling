@@ -1,0 +1,393 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.84.0">
+    <title>Reddit Visualizer</title>
+
+    
+     
+    <link rel="stylesheet" type="text/css" href="./docs/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="./docs/slick/slick-theme.css"/>
+    
+    
+
+    <!-- Bootstrap core CSS -->
+<link href="./css/index.css" rel="stylesheet">    
+<link href="./docs/css/bootstrap.min.css" rel="stylesheet">
+<link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/headers/">
+<link rel="stylesheet" type="text/css" href="./docs/slick/slick.css"/>
+    <!-- Favicons -->
+<link rel="apple-touch-icon" href="/docs/5.0/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.0/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.0/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.0/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.0/assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
+<link rel="icon" href="/docs/5.0/assets/img/favicons/favicon.ico">
+<link rel="stylesheet" href="./docs/css/element.css"> 
+<!--<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
+<!-- <script type="text/javascript" src="./docs/js/vue.js"></script> -->
+<script src="https://unpkg.com/vue@next"></script>
+<script type="text/javascript" src="./docs/js/element.js"></script>
+<!--<script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
+<meta name="theme-color" content="#7952b3">
+
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+  </head>
+  <body>
+
+
+
+<main>
+
+  <header class="p-3 bg-dark text-white">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <a class="navbar-brand" href="#">Reddit Visualizer</a>
+        <div class="col-lg-4"></div>
+
+        <ul class="nav col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+        </ul>
+
+        <form class="col-lg-auto mb-3 mb-lg-0 me-lg-3">
+          <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
+        </form>
+
+        <div class="text-end">
+          <a href="#" class="d-block link-dark text-decoration-none" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="./assets/background/avatar.jpeg" alt="mdo" width="32" height="32" class="rounded-circle">
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div id="posts-table">
+  <div class="container-xxl mt-1">
+    <div class="bg-dark p-4 rounded pb-1">
+      <div data-slick='{"slidesToShow": 7, 
+                      "slidesToScroll": 7,
+                      "arrows": true
+    
+    }' class="match pb-1">
+        <div class="card border-secondary" style="max-width: 16rem;width:100%;display:inline-block">
+          <div class="card-body text-dark">
+            <div class="match-info">
+              <dl>
+                <dt class="leagueTitle">EPL</dt>
+                <dd class="status fw-lighter">Finished</dd>
+                <dt><embed src="./assets/logo/Arsenal.svg" style="height: 1em;"/>&nbsp;Arsenal</dt>
+                <dd class="score">2</dd>
+                <dt><embed src="./assets/logo/Brighton.svg" style="height: 1em;"/>&nbsp;Brighton</dt>
+                <dd class="score">0</dd>
+              </dl>
+            </div>
+            <div class="match-choice row align-items-center" id="match-choice">
+              <div class="match-button btn-group align-items-center" role="group" aria-label="Basic outlined example" id = "match-button">
+                <button type="button" class="btn btn-primary" id="filter1" @click="setIndex(1)">Filter</button>
+                <a href="https://www.premierleague.com/match/59266" type="button" class="btn btn-success">Detail</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card border-secondary" style="max-width: 16rem;width:100%;display:inline-block">
+          <div class="card-body text-dark">
+            <div class="match-info">
+              <dl>
+                <dt class="leagueTitle">EPL</dt>
+                <dd class="status fw-lighter">Finished</dd>
+                <dt><embed src="./assets/logo/AstonVilla.svg" style="height: 1em;"/>&nbsp;Aston Villa</dt>
+                <dd class="score">2</dd>
+                <dt><embed src="./assets/logo/Chelsea.svg" style="height: 1em;"/>&nbsp;Chelsea</dt>
+                <dd class="score">1</dd>
+              </dl>
+            </div>
+            <div class="match-choice row align-items-center" id="match-choice">
+              <div class="match-button btn-group align-items-center" role="group" aria-label="Basic outlined example" id = "match-button">
+                <button type="button" class="btn btn-primary" @click="setIndex(2)">Filter</button>
+                <a href="https://www.premierleague.com/match/59267" type="button" class="btn btn-success">Detail</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card border-secondary" style="max-width: 16rem;width:100%;display:inline-block">
+          <div class="card-body text-dark">
+            <div class="match-info">
+              <dl>
+                <dt class="leagueTitle">EPL</dt>
+                <dd class="status fw-lighter">Finished</dd>
+                <dt><embed src="./assets/logo/Leeds.svg" style="height: 1em;"/>&nbsp;Leeds</dt>
+                <dd class="score">3</dd>
+                <dt><embed src="./assets/logo/WestBrom.svg" style="height: 1em;"/>&nbsp;West Brom</dt>
+                <dd class="score">1</dd>
+              </dl>
+            </div>
+            <div class="match-choice row align-items-center" id="match-choice">
+              <div class="match-button btn-group align-items-center" role="group" aria-label="Basic outlined example" id = "match-button">
+                <button type="button" class="btn btn-primary" @click="setIndex(3)">Filter</button>
+                <a href="https://www.premierleague.com/match/59269" type="button" class="btn btn-success">Detail</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card border-secondary" style="max-width: 16rem;width:100%;display:inline-block">
+          <div class="card-body text-dark">
+            <div class="match-info">
+              <dl>
+                <dt class="leagueTitle">EPL</dt>
+                <dd class="status fw-lighter">Finished</dd>
+                <dt><embed src="./assets/logo/Leicester.svg" style="height: 1em;"/>&nbsp;Leicester</dt>
+                <dd class="score">2</dd>
+                <dt><embed src="./assets/logo/Tottenham.svg" style="height: 1em;"/>&nbsp;Spurs</dt>
+                <dd class="score">4</dd>
+              </dl>
+            </div>
+            <div class="match-choice row align-items-center" id="match-choice">
+              <div class="match-button btn-group align-items-center" role="group" aria-label="Basic outlined example" id = "match-button">
+                <button type="button" class="btn btn-primary" @click="setIndex(4)">Filter</button>
+                <a href="https://www.premierleague.com/match/59270" type="button" class="btn btn-success">Detail</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card border-secondary" style="max-width: 16rem;width:100%;display:inline-block">
+          <div class="card-body text-dark">
+            <div class="match-info">
+              <dl>
+                <dt class="leagueTitle">EPL</dt>
+                <dd class="status fw-lighter">Finished</dd>
+                <dt><embed src="./assets/logo/Liverpool.svg" style="height: 1em;"/>&nbsp;Liverpool</dt>
+                <dd class="score">2</dd>
+                <dt><embed src="./assets/logo/Crystal.svg" style="height: 1em;"/>&nbsp;Crystal Palace</dt>
+                <dd class="score">0</dd>
+              </dl>
+            </div>
+            <div class="match-choice row align-items-center" id="match-choice">
+              <div class="match-button btn-group align-items-center" role="group" aria-label="Basic outlined example" id = "match-button">
+                <button type="button" class="btn btn-primary" @click="setIndex(5)">Filter</button>
+                <a href="https://www.premierleague.com/match/59271" type="button" class="btn btn-success">Detail</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card border-secondary" style="max-width: 16rem;width:100%;display:inline-block">
+          <div class="card-body text-dark">
+            <div class="match-info">
+              <dl>
+                <dt class="leagueTitle">EPL</dt>
+                <dd class="status fw-lighter">Finished</dd>
+                <dt><embed src="./assets/logo/ManchesterCity.svg" style="height: 1em;"/>&nbsp;Man City</dt>
+                <dd class="score">5</dd>
+                <dt><embed src="./assets/logo/Everton.svg" style="height: 1em;"/>&nbsp;Everton</dt>
+                <dd class="score">0</dd>
+              </dl>
+            </div>
+            <div class="match-choice row align-items-center" id="match-choice">
+              <div class="match-button btn-group align-items-center" role="group" aria-label="Basic outlined example" id = "match-button">
+                <button type="button" class="btn btn-primary" @click="setIndex(6)">Filter</button>
+                <a href="https://www.premierleague.com/match/59272" type="button" class="btn btn-success">Detail</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card border-secondary" style="max-width: 16rem;width:100%;display:inline-block">
+          <div class="card-body text-dark">
+            <div class="match-info">
+              <dl>
+                <dt class="leagueTitle">EPL</dt>
+                <dd class="status fw-lighter">Finished</dd>
+                <dt><embed src="./assets/logo/Sheffield.svg" style="height: 1em;"/>&nbsp;Sheffield Utd</dt>
+                <dd class="score">1</dd>
+                <dt><embed src="./assets/logo/Burnley.svg" style="height: 1em;"/>&nbsp;Burnley</dt>
+                <dd class="score">0</dd>
+              </dl>
+            </div>
+            <div class="match-choice row align-items-center" id="match-choice">
+              <div class="match-button btn-group align-items-center" role="group" aria-label="Basic outlined example" id = "match-button">
+                <button type="button" class="btn btn-primary" @click="setIndex(7)">Filter</button>
+                <a href="https://www.premierleague.com/match/59273" type="button" class="btn btn-success">Detail</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card border-secondary" style="max-width: 16rem;width:100%;display:inline-block">
+          <div class="card-body text-dark">
+            <div class="match-info">
+              <dl>
+                <dt class="leagueTitle">EPL</dt>
+                <dd class="status fw-lighter">Finished</dd>
+                <dt><embed src="./assets/logo/WestHam.svg" style="height: 1em;"/>&nbsp;West Ham</dt>
+                <dd class="score">3</dd>
+                <dt><embed src="./assets/logo/Southampton.svg" style="height: 1em;"/>&nbsp;Southampton</dt>
+                <dd class="score">0</dd>
+              </dl>
+            </div>
+            <div class="match-choice row align-items-center" id="match-choice">
+              <div class="match-button btn-group align-items-center" role="group" aria-label="Basic outlined example" id = "match-button">
+                <button type="button" class="btn btn-primary" @click="setIndex(8)">Filter</button>
+                <a href="https://www.premierleague.com/match/59274" type="button" class="btn btn-success">Detail</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card border-secondary" style="max-width: 16rem;width:100%;display:inline-block">
+          <div class="card-body text-dark">
+            <div class="match-info">
+              <dl>
+                <dt class="leagueTitle">EPL</dt>
+                <dd class="status fw-lighter">Finished</dd>
+                <dt><embed src="./assets/logo/Wolverhampton.svg" style="height: 1em;"/>&nbsp;Wolves</dt>
+                <dd class="score">1</dd>
+                <dt><embed src="./assets/logo/ManchesterUnited.svg" style="height: 1em;"/>&nbsp;Man Utd</dt>
+                <dd class="score">2</dd>
+              </dl>
+            </div>
+            <div class="match-choice row align-items-center" id="match-choice">
+              <div class="match-button btn-group align-items-center" role="group" aria-label="Basic outlined example" id = "match-button">
+                <button type="button" class="btn btn-primary" @click="setIndex(9)">Filter</button>
+                <a href="https://www.premierleague.com/match/59275" type="button" class="btn btn-success">Detail</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row gx-2">
+        <h4>
+          <a class="badge bg-primary" data-bs-toggle="collapse" href="#collapseMatch" role="button" aria-expanded="false" aria-controls="collapseMatch">Matches</a>
+          <a class="badge bg-info text-dark"  data-bs-toggle="collapse" href="#collapseManchesterCity" role="button" aria-expanded="false" aria-controls="collapseManchesterCity">Manchester City</a>
+          <a class="badge bg-danger" data-bs-toggle="collapse" href="#collapseLiverpool" role="button" aria-expanded="false" aria-controls="collapseLiverpool">Liverpool</a>
+          <a class="badge bg-danger" data-bs-toggle="collapse" href="#collapseManchesterUnited" role="button" aria-expanded="false" aria-controls="collapseManchesterUnited">Manchester United</a>
+          <a class="badge bg-warning text-dark" data-bs-toggle="collapse" href="#collapseThreeLions" role="button" aria-expanded="false" aria-controls="collapseThreeLions">Three Lions</a>
+          <a class="badge bg-secondary text-dark" data-bs-toggle="collapse" href="#collapseSpurs" role="button" aria-expanded="false" aria-controls="collapseSpurs">Tottenham Spurs</a>
+          <a class="badge bg-light text-dark" data-bs-toggle="collapse" href="#collapseArsenal" role="button" aria-expanded="false" aria-controls="collapseArsenal">Arsenal</a>
+          <a class="badge bg-dark"  data-bs-toggle="collapse" href="#collapseChelsea" role="button" aria-expanded="false" aria-controls="collapseChelsea">Chelsea<a>
+          <span><form class="col-lg-auto mb-3 mt-3 mb-lg-0 me-lg-3">
+            <input type="search" class="form-control form-control-dark" placeholder="More..." aria-label="Search">
+          </form>
+        </span>
+        </h4>
+      </div>
+      <div class="collapse" id="collapseMatch">
+        <h5><span class="badge bg-light text-dark" role="button" @click="setIndex(10)">All Match Threads</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(11)">LEIxTOT</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(12)">MCIxEVE</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(13)">WOLxMUN</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(14)">LIVxCRY</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(15)">CHExAVL</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(16)">ARSxBHA</span>
+      </div>
+      <div class="collapse" id="collapseManchesterCity">
+        <h5><span class="badge bg-light text-dark" role="button" @click="setIndex(20)">All</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(21)">Game Threads</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(22)">MCIxEVE</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(23)">De Bruyne</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(24)">Mahrez</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(25)">UEFA Final</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(26)">Bernardo Silva</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(27)">Transfer Market</span>
+      </div>
+      <div class="collapse" id="collapseLiverpool">
+        <h5><span class="badge bg-light text-dark" role="button" @click="setIndex(30)">All</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(31)">Game Threads</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(32)">LIVxCRY</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(33)">Trade Rumors</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(34)">Salah</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(35)">Klopp</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(36)">Van Dijk</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(37)">Arnold</span>
+      </div>
+      <div class="collapse" id="collapseManchesterUnited">
+        <h5><span class="badge bg-light text-dark" role="button" @click="setIndex(40)">All</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(40)">Game Threads</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(41)">MUNxWOL</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(42)">CR7</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(43)">Rashford</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(44)">Harry Maguire</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(45)">Old Traffold</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(46)">Bruno Fernandes</span>
+      </div>
+      <div class="collapse" id="collapseThreeLions">
+        <h5><span class="badge bg-light text-dark" role="button" @click="setIndex(50)">Schedule</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(51)">Squad</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(52)">Southgate</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(53)">Friendly Match</span>
+      </div>
+      <div class="collapse" id="collapseSpurs">
+        <h5><span class="badge bg-light text-dark" role="button" @click="setIndex(60)">All</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(61)">Game Threads</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(62)">LEIxTOT</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(63)">Trade Rumors</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(64)">Harry Kane</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(65)">Son Heung Min</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(66)">Jose Mourinho</span>
+      </div>
+      <div class="collapse" id="collapseArsenal">
+        <h5><span class="badge bg-light text-dark" role="button" @click="setIndex(70)">All</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(71)">Game Threads</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(72)">ARSxBHA</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(73)">Trade Rumors</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(74)">David Luiz</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(75)">Mikal Arteta</span>
+        <span class="badge bg-light text-dark" role="button" @click="setIndex(76)">Pepe</span>
+      </div>
+    </div>
+  </div>
+  <div class="container-xxl mt-1">
+    <div class="bg-light p-4 rounded pb-1">
+        <div>
+          <table class="table table-striped table-hover">
+              <thead class="table-dark">
+                <tr>
+                <th>Title</th>
+                <th>Comments</th>
+                <th>Author</th>
+                <th>Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                <div>
+                  <tr class="table-light" v-for="postData in isCategory(postsData)">
+                      <td class="col-lg-9 align-middle"><a href="./post.html" class="text-dark link-primary">{{ postData.title }}</a></td>
+                      <td class="align-middle align-items-center"style="text-align-last: center;">{{ postData.num_comments }}</td>
+                      <td class="align-middle align-items-center"style="text-align-last: center;">{{ postData.author }}</td>
+                      <td class="align-middle align-items-center"style="text-align-last: center;">{{ postData.time_str }}</td>
+                  </tr>
+                </div>
+              </tbody>
+            </table>
+          </div>
+    </div>
+  </div>
+</div>
+</main>
+
+    <script src="./js/posts_data.json"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script> 
+    <script type="text/javascript" src="./docs/slick/slick.min.js"></script>
+    <script src="./docs/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="./js/slick.js"></script>
+    <script type="text/javascript" src="./js/post-table.js"></script>
+    <script type="text/javascript" src="./js/index.js"></script>
+    
+  </body>
+</html>

@@ -1,0 +1,78 @@
+dt{
+    width: 75%;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    float: left;
+    font-size:small;
+    
+}
+    
+.status{
+    width: 35%;
+    overflow: hidden;
+    padding: 0;
+    margin: 25;
+    margin-left: 100px;
+    font-size:small;
+}
+
+.score{
+    width: 20%;
+    overflow: hidden;
+    padding: 0;
+    margin: 10;
+    margin-left: 130px;
+    font-size:small;
+}
+
+.leagueTitle{
+    width: 65%;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    float: left;
+    font-size:small;
+}
+
+#match-choice{
+    position: absolute;
+    top: 30%;
+    left:15%;
+    z-index:2;
+    display: none;
+}
+
+.card-body:hover > #match-choice{
+    display:block;
+}
+
+.card-body:hover > .match-info{
+    background: hsla(0, 0%, 100%, .75);
+    filter: blur(5px);  
+}
+
+body{
+    background-image: url("../../assets/background/EPL_bg.gif");
+}
+
+a:link{text-decoration:none ; color:white ;}
+a:visited {text-decoration:none ; color:white;}
+a:hover {text-decoration:none ; color:white;}
+a:active {text-decoration:none ; color: white;}
+
+table th{background-color:rgb(46, 33, 33);
+    color:aliceblue;
+    text-align-last: center;
+}
+thead{
+    height:50px;
+}
+table td{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#postHead{
+    background-color: #F0F0F0;
+}
